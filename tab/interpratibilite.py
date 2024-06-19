@@ -32,7 +32,7 @@ async def tab_interpratibilite(sk_id_curr_value: int):
     # Créer un DataFrame à partir de la liste d'explication pour une étiquette spécifique
     explanation_df = pd.DataFrame(explanation.as_list(label=available_labels[0]))
     # Créer le graphique à barres
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(15, 10))
     sns.barplot(x=explanation_df[1], y=explanation_df[0], palette=['green' if val >= 0 else 'red' for val in explanation_df[1]])
     plt.title('LIME Explanation')
     plt.xlabel('Feature Importance')
@@ -46,7 +46,8 @@ async def tab_interpratibilite(sk_id_curr_value: int):
     # Enregistrer le graphique dans le buffer
     plt.savefig(buffer, format='png')
     plt.close()
-    # Retourner le contenu du buffer en tant que réponse HTTP
+    # Déplacer le pointeur du buffer au début
     buffer.seek(0)
-    explanation_base64 = base64.b64encode(buffer.getvalue()).decode()
-    return explanation_base64
+    image_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+    # Retourner le contenu du buffer
+    return {"image": image_base64}
