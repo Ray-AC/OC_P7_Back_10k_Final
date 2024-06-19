@@ -3,7 +3,7 @@ name: Run pytest
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   test:
@@ -26,4 +26,4 @@ jobs:
 
     - name: Run pytest
       run: |
-        pytest ./tests/tests_prediction.py
+        pytest ./tests/test_prediction.py
